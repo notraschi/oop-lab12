@@ -1,13 +1,18 @@
 package it.unibo.es1;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Implementation of the Logics interface.
  */
 public class LogicsImpl implements Logics {
 
-    private static final String ERROR_MESSAGE = "Unimplemented method";
+    private final List<Integer> values;
 
     /**
      * Constructor.
@@ -15,7 +20,10 @@ public class LogicsImpl implements Logics {
      * @param size the size of the logics
      */
     public LogicsImpl(final int size) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        if (size < 1) {
+            throw new IllegalArgumentException("at least one button is necessary..");
+        }
+        this.values = new ArrayList<>(Stream.generate(() -> 0).limit(size).toList()); // watch out
     }
 
     /**
@@ -23,7 +31,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int size() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return this.values.size();
     }
 
     /**
@@ -31,7 +39,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Integer> values() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return Collections.unmodifiableList(this.values);
     }
 
     /**
@@ -39,7 +47,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Boolean> enabledStates() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return this.values.stream()
+            .map(elem -> elem < this.values.size())
+            .toList();
     }
 
     /**
@@ -47,7 +57,12 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int hit(final int elem) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        // range check
+        final int currentValue = this.values.get(elem);
+        if (currentValue < this.values.size()) {
+            this.values.set(elem, currentValue + 1);
+        }
+        return this.values.get(elem);
     }
 
     /**
@@ -55,7 +70,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public String result() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return this.values.stream()
+            .map(elem -> String.valueOf(elem))
+            .collect(Collectors.joining("|", "<<", ">>"));
     }
 
     /**
@@ -63,6 +80,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public boolean toQuit() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return values.stream().distinct().count() <= 1
+            || this.enabledStates().stream().allMatch(x -> !x); // so true evaluates to false..
     }
 }
