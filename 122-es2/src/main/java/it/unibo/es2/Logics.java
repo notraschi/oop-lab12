@@ -11,12 +11,13 @@ public interface Logics {
      * @param elem button to hit
      * @return text for the hit button
      */
-    public String hit(Pair<Integer, Integer> elem);
+    boolean hit(Pair<Integer, Integer> elem);
 
     /**
      * checks if its time to go home.
      * 
+     * @param elem elem of which row to check
      * @return a funnyh boolean
      */
-    public boolean toQuit(Pair<Integer, Integer> elem);
-} 
+    boolean toQuit(Pair<Integer, Integer> elem);
+}
