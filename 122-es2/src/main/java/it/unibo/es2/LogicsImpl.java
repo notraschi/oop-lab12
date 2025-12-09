@@ -18,20 +18,21 @@ public class LogicsImpl implements Logics {
     @Override
     public String hit(final Pair<Integer, Integer> elem) {
         elems.replace(elem, !elems.get(elem));
-        System.out.println(elems.get(elem));
-        if (elems.get(elem)) {
-            return "*";
-        } else {
-            return " ";
-        }
+        return elems.get(elem).toString();
     }
 
     @Override
     public boolean toQuit(final Pair<Integer, Integer> elem) {
         final boolean myval = elems.get(elem);
-        for (int i = 0; i < elems.size(); i++) {
-            if (elems.get(new Pair<Integer, Integer>(elem.x(), i)) != myval
-                && elems.get(new Pair<Integer, Integer>(i, elem.y())) != myval) {
+        boolean quit = false;
+        for (int i = 0; i < Math.sqrt((double) elems.size()) ; i++) {
+            if (elems.get(new Pair<Integer, Integer>(i, elem.y())) != myval && !quit) {
+                return false;
+            }
+        }
+        quit = true;
+        for (int i = 0; i < Math.sqrt((double) elems.size()) ; i++) {
+            if (elems.get(new Pair<Integer, Integer>(elem.x(), i)) != myval && !quit) {
                 return false;
             }
         }
