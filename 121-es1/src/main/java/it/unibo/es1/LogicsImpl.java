@@ -1,10 +1,9 @@
 package it.unibo.es1;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -71,7 +70,7 @@ public class LogicsImpl implements Logics {
     @Override
     public String result() {
         return this.values.stream()
-            .map(elem -> String.valueOf(elem))
+            .map(String::valueOf)
             .collect(Collectors.joining("|", "<<", ">>"));
     }
 
