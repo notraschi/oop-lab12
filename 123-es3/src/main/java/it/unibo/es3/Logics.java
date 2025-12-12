@@ -8,14 +8,14 @@ import java.util.Set;
  */
 public interface Logics {
     /**
-     * hits elems
+     * hits elems.
      * 
      * @return coords of elems hit
      */
-    List<Pair<Integer, Integer>> next_hit();
+    List<Pair<Integer, Integer>> nextHit();
 
     /**
-     * is it time to go?
+     * is it time to go?.
      * 
      * @return whether to quit
      */
@@ -23,6 +23,7 @@ public interface Logics {
 
     /**
      * gets curr grid state.
+     * 
      * @return cells state
      */
     Set<Pair<Integer, Integer>> state();

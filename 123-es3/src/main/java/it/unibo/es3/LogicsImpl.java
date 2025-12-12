@@ -18,6 +18,7 @@ public class LogicsImpl implements Logics {
 
     /**
      * constr.
+     * 
      * @param width how large the grid is
      */
     @SuppressFBWarnings("DMI_RANDOM_USED_ONLY_ONCE")
@@ -26,12 +27,12 @@ public class LogicsImpl implements Logics {
         dead = new LinkedHashSet<>();
         final Random rand = new Random();
         while (dead.size() < 3) {
-            dead.add(new Pair(rand.nextInt(size), rand.nextInt(size)));
+            dead.add(new Pair<>(rand.nextInt(size), rand.nextInt(size)));
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}.
      */
     @Override
     public Set<Pair<Integer, Integer>> state() {
@@ -39,24 +40,25 @@ public class LogicsImpl implements Logics {
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc }.
      */
     @Override
-    public List<Pair<Integer, Integer>> next_hit() {
+    public List<Pair<Integer, Integer>> nextHit() {
         return neighbors().stream()
-            .peek(n -> dead.add(n))
+            .peek(dead::add)
             .toList();
     }
 
     /**
      * gets neighbrs to hit.
+     * 
      * @return the ALIVE neighbors as coords
      */
     private List<Pair<Integer, Integer>> neighbors() {
-        List<Pair<Integer, Integer>> res = new ArrayList<>();
+        final List<Pair<Integer, Integer>> res = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                Pair<Integer, Integer> tmp = new Pair(i, j);
+                final Pair<Integer, Integer> tmp = new Pair<>(i, j);
                 if (dead.stream().anyMatch(p -> {
                     return Math.abs(p.x() - tmp.x()) < 2 && Math.abs(p.y() - tmp.y()) < 2 && !dead.contains(tmp);
                 })) {
@@ -68,7 +70,7 @@ public class LogicsImpl implements Logics {
     }
 
     /**
-     * {@inheritDoc }
+     * {@inheritDoc }.
      */
     @Override
     public boolean toQuit() {

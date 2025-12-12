@@ -18,7 +18,7 @@ public final class GUI extends JFrame {
     @Serial
     private static final long serialVersionUID = 1L;
     private final Map<Pair<Integer, Integer>, JButton> cells = new LinkedHashMap<>();
-    private final Logics logics;
+    private final transient Logics logics;
 
     /**
      * Constructor.
@@ -37,7 +37,7 @@ public final class GUI extends JFrame {
         final var next = new JButton(">");
         this.getContentPane().add(BorderLayout.SOUTH, next);
         next.addActionListener(e -> {
-            for (var p : logics.next_hit()) {
+            for (final var p : logics.nextHit()) {
                 cells.get(p).setText("*");
             }
             if (logics.toQuit()) {
@@ -48,7 +48,6 @@ public final class GUI extends JFrame {
         // Create buttons and add them to the panel // why buttons?
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < width; j++) {
-                final var pos = new Pair<>(j, i);
                 final JButton button = new JButton(" ");
                 this.cells.put(new Pair<>(i, j), button);
                 panel.add(button);
